@@ -1,0 +1,121 @@
+/**
+ * This is the code for the Player that calls the Head and Wheel class to draw the robots
+ * Author: Logan Bateman, 000918989
+ */
+
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
+public class Player {
+    private double x;
+    private double y;
+    private int randomScore;
+    private Color color;
+    private String title;
+    private Head head;
+    private Wheel wheel;
+
+
+    /**
+     * This Constructor makes the players for the teams
+     * @param x the starting x position
+     * @param y the starting y position
+     * @param color the color assigned to them
+     */
+    public Player(double x, double y, Color color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.title="";
+        this.randomScore = (int) (Math.random() * 100);
+        head = new Head(x, y);
+        wheel = new Wheel(x, y);
+    }
+
+
+    /**
+     * This is the Constructor for the Head or Referee
+     * @param x the starting x position
+     * @param y the starting y position
+     * @param color the color assigned to robot
+     * @param title the title allows them to distinguish between Head/Referee or normal team players
+     */
+    public Player(double x, double y, Color color, String title) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.title = title;
+        head = new Head(x, y);
+        wheel = new Wheel(x, y);
+    }
+
+    /**
+     * This draws the robots
+     * @param gc this is the name of our GraphicsContext object
+     */
+    public void draw(GraphicsContext gc) {
+        //The if statement checks if the robot it a referee or not
+        if(title.equalsIgnoreCase("referee")){
+            color=null;
+            int body=(int) (Math.random() * 3);
+            //The switch case randomize the colors based on the randomly generated number
+            //It also sets the name according to color
+            switch(body) {
+                case 0:
+                    gc.setFill(Color.BLUE);
+                    gc.fillRect(x - 22, y + 60, 75, 15);
+                    gc.setFill(Color.WHITE);
+                    gc.setFont(Font.font("Times New Roman", FontWeight.BOLD, 14));
+                    gc.fillText("100", x + 8, y + 72, 75);
+                    gc.setFill(Color.BLACK);
+                    gc.fillText("Head B1 Battle Droid", 425, 300);
+                    head.draw(gc);
+                    wheel.draw(gc);
+                    break;
+                case 1:
+                    gc.setFill(Color.BLACK);
+                    gc.fillRect(x - 22, y + 60, 75, 15);
+                    gc.setFill(Color.WHITE);
+                    gc.setFont(Font.font("Times New Roman", FontWeight.BOLD, 14));
+                    gc.fillText("100", x + 8, y + 72, 75);
+                    gc.setFill(Color.BLACK);
+                    gc.fillText("Head Super Battle Droid", 425, 300);
+                    head.draw(gc);
+                    wheel.draw(gc);
+                    break;
+                case 2:
+                    gc.setFill(Color.ORANGE);
+                    gc.fillRect(x - 22, y + 60, 75, 15);
+                    gc.setFill(Color.WHITE);
+                    gc.setFont(Font.font("Times New Roman", FontWeight.BOLD, 14));
+                    gc.fillText("100", x + 8, y + 72, 75);
+                    gc.setFill(Color.BLACK);
+                    gc.fillText("Head Droideka", 425, 300);
+                    head.draw(gc);
+                    wheel.draw(gc);
+                    break;
+            }
+        }else {
+            gc.setFill(color);
+            gc.fillRect(x - 22, y + 60, 75, 15);
+            gc.setFill(Color.WHITE);
+            gc.setFont(Font.font("Times New Roman", FontWeight.BOLD, 14));
+            gc.fillText(String.valueOf(randomScore), x + 8, y + 72, 75);
+            head.draw(gc);
+            wheel.draw(gc);
+        }
+        x+=100;
+    }
+
+
+    /**
+     * This gets the number on the robot
+     * @return the number on the robot
+     */
+    public double getAverage() {
+        return randomScore;
+    }
+
+}
